@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dashboard Page</title>
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@2.41.0/dist/full.css" rel="stylesheet" type="text/css" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        primary: {
+                            50: "#eff6ff",
+                            100: "#dbeafe",
+                            200: "#bfdbfe",
+                            300: "#93c5fd",
+                            400: "#60a5fa",
+                            500: "#3b82f6",
+                            600: "#14b8a6",
+                            700: "#2dd4bf",
+                            800: "#1e40af",
+                            900: "#1e3a8a",
+                        },
+                    },
+                },
+                fontFamily: {
+                    body: [
+                        "Inter",
+                        "ui-sans-serif",
+                        "system-ui",
+                        "-apple-system",
+                        "system-ui",
+                        "Segoe UI",
+                        "Roboto",
+                        "Helvetica Neue",
+                        "Arial",
+                        "Noto Sans",
+                        "sans-serif",
+                        "Apple Color Emoji",
+                        "Segoe UI Emoji",
+                        "Segoe UI Symbol",
+                        "Noto Color Emoji",
+                    ],
+                    sans: [
+                        "Inter",
+                        "ui-sans-serif",
+                        "system-ui",
+                        "-apple-system",
+                        "system-ui",
+                        "Segoe UI",
+                        "Roboto",
+                        "Helvetica Neue",
+                        "Arial",
+                        "Noto Sans",
+                        "sans-serif",
+                        "Apple Color Emoji",
+                        "Segoe UI Emoji",
+                        "Segoe UI Symbol",
+                        "Noto Color Emoji",
+                    ],
+                },
+            },
+        };
+    </script>
+    <script>
+        function displayQty(listData, checkId, qtyId) {
+            var checkBox = document.getElementById(checkId);
+            var qty = document.getElementById(qtyId);
+            if (checkBox.checked == true) {
+                qty.style.display = "block";
+                checkBox.value = listData + "," + qty.value;
+            } else {
+                qty.style.display = "none";
+            }
+        }
+    </script>
+    <style>
+        .avatar {
+            float: left;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+        }
+
+        .avatar:hover {
+            background-color: #000;
+            cursor: pointer;
+        }
+
+        .navbar {
+            width: 100%;
+            overflow: auto;
+        }
+
+        .menu {
+            float: left;
+            text-align: center;
+            padding: 12px;
+            color: #000;
+            text-decoration: none;
+            font-size: 17px;
+        }
+    </style>
+</head>
+
+<body class="w-full min-h-full bg-slate-100">
+    <div class="w-full px-4 pt-5 ">
+        <div class="max-w-xl  mx-auto text-center mb-5 ">
+            <h1 class="font-semibold uppercase text-slate-500 text-2xl lg:text-3xl lg:font-bold">Dashboard Page</h1>
+        </div>
+    </div>
+
+    <nav class="flex justify-center">
+        <form method="post" action="/user/img/update-profile" enctype="multipart/form-data">
+            <div class="mb-5 w-full">
+                <figure class="rounded-md shadow-md overflow-hidden bg-white border-2 border-teal-500">
+                    <div class="text-center mb-1 pt-2 mx-2 font-medium text-lg text-slate-500 lg:text-md lg:pt-2">
+                        <img src="/user/img/profile" alt="Avatar" class="avatar my-2 mx-2">
+                        <label class="menu my-2 text-xl">Hello {{.Cart.Name}}</label>
+                        <label class="menu my-2">Update Profile: </label>
+                        <input class="my-2 cursor-pointer" type="file" name="file-avatar"  required />
+
+                        <button
+                            class="bg-transparent hover:bg-teal-400 text-teal-500 font-semibold hover:text-white py-2 px-4 border border-teal-400  hover:border-transparent rounded mx-2 cursor-pointer">
+                            <input type="submit" class="cursor-pointer">
+                        </button>
+                    </div>
+                </figure>
+            </div>
+
+        </form>
+    </nav>
+
+    <section>
+        <form method="post" action="/cart/add">
+           
+            <section>
+                <div class="container">
+                    <div class="w-full px-4 flex flex-wrap justify-center xl:w-10/12 xl:mx-auto">
+                        <div class="mb-8 md:p-4 md:w-1/2">
+                            <figure
+                                class="rounded-md shadow-md overflow-hidden bg-white cursor-pointer mx-5 border-2 border-teal-500">
+                                <h2
+                                    class="text-center mb-1 pt-2 mx-2 font-bold text-base text-gray-500 lg:text-xl lg:pt-2">
+                                    List Product</h2>
+                                <div class="mx-5">
+                                    {{range $val := .Product}}
+                                    <input class="mb-2 pb-3  text-center text-sm text-gray-600 mx-2 md:text-base"
+                                        type="checkbox" id="check-{{ .Id }}" name="product"
+                                        onclick="displayQty('{{ .Id }},{{ .Name }},{{ .Price }}', 'check-{{ .Id }}', 'qty-{{ .Id }}')" />
+                                    <label class="mb-2 pb-3  text-center text-sm text-gray-600 mx-2 md:text-base">{{ .Id
+                                        }}.
+                                        {{ .Name }}: Rp. {{ .Price }},-</label>
+                                    <input class="mb-2 pb-3  text-center text-sm text-gray-600 mx-2 md:text-base"
+                                        type="number" style="display: none" id="qty-{{ .Id }}" value="1" min="1"
+                                        max="100"
+                                        onchange="displayQty('{{ .Id }},{{ .Name }},{{ .Price }}', 'check-{{ .Id }}', 'qty-{{ .Id }}')" />
+                                    <br />
+                                    {{else}} Empty Product {{end}}
+                                </div>
+                                <div class="text-center mb-5 mt-5">
+                                    <button type="submit"
+                                        class="w-24 p-2 text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-sm rounded-md text-sm text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">
+                                        Add to Cart
+                                    </button>
+                                </div>
+                            </figure>
+                        </div>
+                        <div class="mb-8 md:p-4 md:w-1/2">
+                            <figure class="rounded-md shadow-md overflow-hidden bg-white cursor-pointer bg-white border-2 border-teal-500">
+                                <h2
+                                    class="text-center mb-1 pt-2 mx-2 font-bold text-base text-gray-500 lg:text-xl lg:pt-2">
+                                    My Cart
+                                </h2>
+                                <section>
+                                    <ul class="text-start mx-10  text-gray-600 mx-2 md:text-base">
+                                        {{range $val := .Cart.Cart}}
+                                        <li>
+                                            {{ .Name }}
+                                            <ul>
+                                                <li>Price: Rp. {{ .Price }},-</li>
+                                                <li>Quantity: {{ .Quantity }}</li>
+                                                <li>Total: {{ .Total }}</li>
+                                            </ul>
+                                        </li>
+                                        {{else}} Empty Cart {{end}}
+                                    </ul>
+                                    <div class="pb-2 text-end mx-5">
+                                        <p class="font-semibold text-lg text-slate-900">Total Price Rp. {{.Cart.TotalPrice}},-</p>
+                                    </div>
+                                </section>
+                            </figure>
+                        </div>
+                    </div>
+                </div>
+            </section>
+           
+        </form>
+        <footer class="text-center">
+            <form method="get" action="/user/logout">
+                <button type="submit"
+                    class=" bg-red-500 hover:bg-red-400 text-white font-semibold hover:text-white py-2 px-4 border border-white hover:border-transparent rounded">
+                    Logout
+                </button>
+            </form>
+        </footer>
+    </section>
+</body>
+
+</html>

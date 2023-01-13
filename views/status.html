@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Show Message</title>
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@2.41.0/dist/full.css" rel="stylesheet" type="text/css" />
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body>
+    <div class="hero min-h-screen" style="background-image: url(https://s42137.pcdn.co/wp-content/uploads/2022/10/AdobeStock_97655541-1-1-scaled.jpeg.optimal.jpeg);">
+        <div class="hero-overlay bg-opacity-60"></div>
+        <div class="hero-content text-center text-neutral-content">
+          <div class="max-w-md">
+            <h1 class="mb-5 text-5xl font-bold">Hello {{.name}}</h1>
+            <p class="mb-5 text-5xl font-bold">{{.message}}</p>
+            <p class="mb-5">Please login to start shopping.</p>
+            
+            <a href="/page/login"><button class="btn btn-primary"> Go to Login Page</button></a>
+          </div>
+        </div>
+      </div>
+
+  
+</body>
+
+</html>
